@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useParams, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Listing from './pages/Listing';
 import Details from './pages/Details';
 import Contact from './pages/Contact';
@@ -21,34 +22,6 @@ var defaultListings: any[] = [
 
 export const listings: any[] = defaultListings;
 
-function Footer(props: any){
-  var go = (p: string)=> props.onNavigate(p);
-  return (
-    <div className="bg-[#0B3D2E] text-white px-5 py-8">
-      <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto text-sm text-center md:text-left">
-        <div><h3 className="text-[#D8C28F] font-serif font-bold text-lg">About</h3><p className="mt-2 text-white/80">ZIONVANTA PROPERTIES is your trusted partner in exceptional properties, providing reliable real estate solutions across Ghana.</p></div>
-        <div><h3 className="text-[#D8C28F] font-serif font-bold text-lg">Quick Links</h3>
-          <p className="mt-2 flex flex-wrap justify-center md:justify-start gap-x-2 gap-y-1">
-            <button onClick={()=>go('/')} className="hover:text-[#D8C28F]">Home</button> •
-            <button onClick={()=>go('/listings?deal=For Sale')} className="hover:text-[#D8C28F]">Buy</button> •
-            <button onClick={()=>go('/listings?deal=For Rent')} className="hover:text-[#D8C28F]">Rent</button> •
-            <button onClick={()=>go('/listings?type=Land')} className="hover:text-[#D8C28F]">Land</button> •
-            <button onClick={()=>go('/about')} className="hover:text-[#D8C28F]">About</button> •
-            <button onClick={()=>go('/contact')} className="hover:text-[#D8C28F]">Contact</button>
-          </p>
-        </div>
-        <div><h3 className="text-[#D8C28F] font-serif font-bold text-lg">Contact</h3><p className="mt-2">Accra, Ghana<br/>info@zionvanta.com<br/>+233 50 000 0000</p></div>
-        <div><h3 className="text-[#D8C28F] font-serif font-bold text-lg">Terms Summary</h3><p className="mt-2 text-white/80">Rental Viewing GH¢200 • Sale Viewing GH¢300+ • Rental 10% • Sales 5%</p></div>
-      </div>
-      <div className="flex justify-center gap-3 mt-6">
-        <button onClick={()=>{window.location.href='tel:+233500000000'}} className="border border-[#D8C28F] text-[#D8C28F] px-4 py-1 rounded-full text-xs">Call Us</button>
-        <button onClick={()=>{window.open('https://wa.me/233500000000','_blank')}} className="border border-[#D8C28F] text-[#D8C28F] px-4 py-1 rounded-full text-xs">WhatsApp</button>
-      </div>
-      <div className="text-center text-xs text-white/60 mt-4">© 2024 Zionvanta Properties. All Rights Reserved. <button onClick={()=>go('/admin-login')} className="underline text-white/40">Admin</button></div>
-    </div>
-  );
-}
-
 function DetailsPage(props: any){
   var {id} = useParams();
   var listing = props.allListings.find((l:any)=>l.id===Number(id)) || props.allListings[0];
@@ -63,12 +36,12 @@ function BookingPage(props: any){
     <div className="p-4 max-w-lg mx-auto">
       <h2 className="font-serif text-3xl">Book An Appointment</h2>
       <p className="text-gray-600 mb-3">{listing.title} - GH¢{listing.price.toLocaleString()}</p>
-      {props.booked ? (<div className="bg-white rounded-2xl p-5"><h3 className="font-bold">Booking Received!</h3><p>Thanks {props.name}, we will call {props.phone} to confirm on {props.date}.</p><button className="mt-4 bg-[#0B3D2E] text-white px-5 py-2 rounded-full font-bold text-sm" onClick={()=>props.onNavigate('/listings')}>Browse More →</button></div>) : (
+      {props.booked ? (<div className="bg-white rounded-2xl p-5"><h3 className="font-bold">Booking Received!</h3><p>Thanks {props.name}, we will call {props.phone} to confirm on {props.date}.</p><button className="mt-4 bg-[#0A1931] text-white px-5 py-2 rounded-full font-bold text-sm" onClick={()=>props.onNavigate('/listings')}>Browse More →</button></div>) : (
         <div>
           <input className={inputCls} placeholder="Full Name" value={props.name} onChange={e=>props.setName(e.target.value)} />
           <input className={inputCls} placeholder="Phone / WhatsApp" value={props.phone} onChange={e=>props.setPhone(e.target.value)} />
           <input className={inputCls} type="date" value={props.date} onChange={e=>props.setDate(e.target.value)} />
-          <button className="w-full bg-[#0B3D2E] text-white py-3 rounded-full font-bold" onClick={()=>{ if(props.name&&props.phone&&props.date) props.setBooked(true); else alert('Please fill all fields'); }}>Confirm Booking</button>
+          <button className="w-full bg-[#0A1931] text-white py-3 rounded-full font-bold" onClick={()=>{ if(props.name&&props.phone&&props.date) props.setBooked(true); else alert('Please fill all fields'); }}>Confirm Booking</button>
         </div>
       )}
     </div>
@@ -151,7 +124,7 @@ function AppContent(){
       <Routes>
         <Route path="/" element={<Home listings={allListings} search={search} setSearch={setSearch} setFilter={setFilter} name={name} setName={setName} phone={phone} setPhone={setPhone} date={date} setDate={setDate} booked={booked} setBooked={setBooked} onView={openDetails} onNavigate={goTo} />} />
         <Route path="/listings" element={<Listing listings={allListings} locations={locations} onView={openDetails} onNavigate={goTo} />} />
-        <Route path="/about" element={<div className="p-4 max-w-3xl mx-auto"><div className="bg-white rounded-2xl p-5"><h1 className="font-serif text-3xl">About Zionvanta</h1><p className="mt-3 text-gray-600">ZIONVANTA PROPERTIES is your trusted real estate partner delivering luxury homes, land, and investment opportunities across Ghana.</p><button className="mt-4 bg-[#0B3D2E] text-white px-5 py-2 rounded-full font-bold" onClick={()=>goTo('/listings')}>Browse Properties</button></div></div>} />
+        <Route path="/about" element={<div className="p-4 max-w-3xl mx-auto"><div className="bg-white rounded-2xl p-5"><h1 className="font-serif text-3xl">About Zionvanta</h1><p className="mt-3 text-gray-600">ZIONVANTA PROPERTIES is your trusted real estate partner delivering luxury homes, land, and investment opportunities across Ghana.</p><button className="mt-4 bg-[#0A1931] text-white px-5 py-2 rounded-full font-bold" onClick={()=>goTo('/listings')}>Browse Properties</button></div></div>} />
         <Route path="/contact" element={<Contact onNavigate={goTo} />} />
         <Route path="/details/:id" element={<DetailsPage allListings={allListings} onNavigate={goTo} onBook={bookNow} />} />
         <Route path="/booking/:id" element={<BookingPage allListings={allListings} name={name} setName={setName} phone={phone} setPhone={setPhone} date={date} setDate={setDate} booked={booked} setBooked={setBooked} onNavigate={goTo} />} />
@@ -160,8 +133,6 @@ function AppContent(){
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {!isAdmin && <Footer onNavigate={goTo} />}
-      {!isAdmin && <button onClick={()=>{window.location.href='tel:+233500000000'}} className="fixed bottom-4 left-4 z-50 bg-[#D8C28F] text-black font-bold px-4 py-2 rounded-full shadow-lg">Call</button>}
-      {!isAdmin && <button onClick={()=>{window.open('https://wa.me/233500000000','_blank')}} className="fixed bottom-4 right-4 z-50 bg-[#25D366] text-white font-bold px-4 py-2 rounded-full shadow-lg">WhatsApp</button>}
     </div>
   );
 }
