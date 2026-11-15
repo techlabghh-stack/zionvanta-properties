@@ -172,4 +172,4 @@ export default function App(){
       <AppContent />
     </BrowserRouter>
   );
-}
+};

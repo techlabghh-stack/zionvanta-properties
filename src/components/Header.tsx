@@ -2,66 +2,48 @@ import React from 'react';
 
 function Header(props: any){
   const [open, setOpen] = React.useState(false);
-
-  var go = (path: string)=>{
-    props.onNavigate(path);
-    setOpen(false);
-  };
-
-  var linkCls = "text-sm font-bold text-[#0A1931] hover:text-[#C9A227]";
-  var activeCls = "text-sm font-bold text-[#C9A227]";
-
-  // props.page = current page, e.g. 'home', 'listings', 'contact'
-  var is = (name:string)=> props.page === name ? activeCls : linkCls;
+  var go = (p: string) => { setOpen(false); props.onNavigate(p); };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-30">
-      <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
-        {/* LOGO - clicks to Home */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={()=>go('/')}>
-          <img src="https://drive.google.com/file/d/1dX76arDf61QXDm46Jc21ErM4vBzuwmmD/view?usp=drivesdk" alt="Zionvanta Properties" className="h-12 sm:h-14 w-auto object-contain" />
-        </div>
-
-        {/* DESKTOP MENU */}
-        <nav className="hidden md:flex items-center gap-6">
-          <button onClick={()=>go('/')} className={is('home')}>Home</button>
-          <button onClick={()=>go('/listings')} className={is('listings')}>Properties</button>
-          <button onClick={()=>go('/listings?deal=For Sale')} className={is('sale')}>For Sale</button>
-          <button onClick={()=>go('/listings?deal=For Rent')} className={is('rent')}>For Rent</button>
-          <button onClick={()=>go('/listings?type=Land')} className={is('land')}>Land</button>
-          <button onClick={()=>go('/contact')} className={is('contact')}>Contact</button>
-        </nav>
-
-        <div className="hidden md:flex items-center gap-2">
-          <a href="https://wa.me/233500000000" target="_blank" className="bg-green-500 text-white text-sm font-bold px-4 py-2 rounded-full">
-            💬 WhatsApp
-          </a>
-          <button onClick={()=>go('/listings')} className="bg-[#C9A227] text-[#0A1931] text-sm font-bold px-4 py-2 rounded-full">
-            Browse →
-          </button>
-        </div>
-
-        {/* MOBILE HAMBURGER */}
-        <button onClick={()=>setOpen(!open)} className="md:hidden text-2xl font-bold px-2">
-          {open ? '✕' : '☰'}
-        </button>
+    <div className="sticky top-0 z-50">
+      {/* PINNED TERMS BAR */}
+      <div className="bg-[#D8C28F] text-[#0B3D2E] text-[10px] sm:text-[11px] font-bold leading-tight px-2 py-2 text-center">
+        Terms & Conditions: Rental Viewing Fee GH¢200 Non-refundable | Sale Viewing Fee GH¢300+ Non-refundable | Rental Commission 10% | Sales Commission 5% | NOTE: All viewings strictly by appointment.
       </div>
 
-      {/* MOBILE MENU */}
-      {open && (
-        <div className="md:hidden bg-white border-t px-4 py-3 space-y-1">
-          <button onClick={()=>go('/')} className="block w-full text-left font-bold py-2.5 border-b">🏠 Home</button>
-          <button onClick={()=>go('/listings')} className="block w-full text-left font-bold py-2.5 border-b">🏘️ All Properties</button>
-          <button onClick={()=>go('/listings?deal=For Sale')} className="block w-full text-left font-bold py-2.5 border-b">🔑 For Sale</button>
-          <button onClick={()=>go('/listings?deal=For Rent')} className="block w-full text-left font-bold py-2.5 border-b">🏡 For Rent</button>
-          <button onClick={()=>go('/listings?type=Land')} className="block w-full text-left font-bold py-2.5 border-b">🌍 Land</button>
-          <button onClick={()=>go('/contact')} className="block w-full text-left font-bold py-2.5 border-b">📞 Contact Us</button>
-          <a href="https://wa.me/233500000000" target="_blank" className="block text-center bg-green-500 text-white font-bold py-3 rounded-full text-sm mt-2">
-            💬 Chat on WhatsApp
-          </a>
+      <div className="bg-[#0B3D2E] text-white shadow">
+        <div className="px-4 py-3 flex items-center justify-between">
+          <button onClick={()=>go('/')} className="font-serif font-bold text-lg leading-none text-left">
+            ZV <span className="text-[#D8C28F]">ZIONVANTA</span>
+            <span className="block text-[9px] tracking-[0.2em] text-white/70 font-sans font-normal">PROPERTIES • GHANA</span>
+          </button>
+
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-4 text-[13px] font-semibold mr-2">
+              <button onClick={()=>go('/')} className="hover:text-[#D8C28F]">Home</button>
+              <button onClick={()=>go('/listings')} className="hover:text-[#D8C28F]">Listings</button>
+              <button onClick={()=>go('/about')} className="hover:text-[#D8C28F]">About</button>
+              <button onClick={()=>go('/contact')} className="hover:text-[#D8C28F]">Contact</button>
+            </div>
+
+            <button onClick={()=>go('/listings')} className="bg-[#D8C28F] text-[#0B3D2E] px-3 py-1.5 rounded-full text-xs font-bold">Find Home →</button>
+
+            <button onClick={()=>setOpen(!open)} className="md:hidden text-2xl px-2 leading-none">
+              {open ? '✕' : '☰'}
+            </button>
+          </div>
         </div>
-      )}
-    </header>
+
+        {open && (
+          <div className="md:hidden bg-[#0A3326] px-4 pb-4 pt-1 flex flex-col gap-1 text-sm font-semibold border-t border-white/10">
+            <button onClick={()=>go('/')} className="text-left py-2.5 border-b border-white/10">🏠 Home</button>
+            <button onClick={()=>go('/listings')} className="text-left py-2.5 border-b border-white/10">🏡 All Listings</button>
+            <button onClick={()=>go('/about')} className="text-left py-2.5 border-b border-white/10">ℹ️ About Us</button>
+            <button onClick={()=>go('/contact')} className="text-left py-2.5">📞 Contact</button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
